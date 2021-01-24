@@ -1,0 +1,30 @@
+﻿@model List<UI_Layer.Models.BeerProductViewModel>;
+@{
+    ViewData["title"] = "Beers";
+}
+
+<h3>Beers List</h3>
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>Brand</th>
+            <th>Size</th>
+            <th>Container</th>
+            <th>Container Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var beer in Model)
+        {
+            <tr>
+                <td>@beer.BrandName</td>
+                <td>@beer.Size</td>
+                <td>@beer.ContainerType</td>
+                <td>@beer.ContainerName</td>
+                <td>@beer.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>

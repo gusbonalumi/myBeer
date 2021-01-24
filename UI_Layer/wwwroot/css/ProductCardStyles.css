@@ -1,0 +1,16 @@
+﻿.productCard {
+    max-width: 350px;
+    min-width: 200px;
+    display: inline-block;
+    margin: 5px;
+}
+
+.productCard-Header, .productCard-Body, .productCard-Footer {
+    border: solid 1px black;
+    padding:10px 20px 10px 20px;
+    margin: 2.5px;
+}
+
+.productCard-Footer {
+    text-align: center;
+}

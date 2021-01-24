@@ -1,0 +1,24 @@
+﻿@model List<UI_Layer.Models.BrandViewModel>
+@{
+    ViewData["title"] = "Brands List";
+}
+
+<h3>Brands List</h3>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Brand name</th>
+            <th>Nationality</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var brand in Model)
+        {
+            <tr>
+                <td>@brand.BrandName</td>
+                <td>@brand.BrandNationality</td>
+            </tr>
+        }
+    </tbody>
+</table>

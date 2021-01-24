@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Countries]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [CountryName] VARCHAR(150) NOT NULL UNIQUE, 
+    [EmojiFlag] NVARCHAR(50) NULL
+)

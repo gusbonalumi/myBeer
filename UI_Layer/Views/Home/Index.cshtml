@@ -1,0 +1,24 @@
+﻿@model List<UI_Layer.Models.BeerProductViewModel>;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<link rel="stylesheet" href="~/css/ProductCardStyles.css" />
+<h1>Welcome to myBeer</h1>
+
+@foreach (var item in Model)
+{
+    <div class="productCard">
+        <div class="productCard-Header">
+            <h4>🍻 @item.BrandName</h4>
+            <h5>@item.ContainerName</h5>
+        </div>
+        <div class="productCard-Body">
+            <h2>@item.Price</h2>
+            <h6>@item.ContainerType</h6>
+        </div>
+        <div class="productCard-Footer">
+            <button class="btn btn-primary">Buy!</button>
+        </div>
+    </div>
+}
