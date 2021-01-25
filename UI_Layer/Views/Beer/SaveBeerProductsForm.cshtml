@@ -1,0 +1,24 @@
+﻿@model UI_Layer.Models.BeerProductViewModel
+@{
+    ViewData["title"] = "Beers - Save Product";
+}
+
+<h3>Save beer product</h3>
+
+@using (Html.BeginForm("Save", "Beer", new { @class = "form-inline" }))
+{
+    @Html.HiddenFor(b => b.Id)
+    <div class="form-group">
+        @Html.LabelFor(b => b.BrandId, "Brand")
+        @Html.DropDownListFor(b => b.BrandId, new SelectList(Model.Brands, "Id", "BrandName"), "Select a Brand", new { @class = "form-group" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(b => b.ContainerId, "Container")
+        @Html.DropDownListFor(b => b.ContainerId, new SelectList(Model.ProductContainers, "Id", "ContainerName"), "Select a Container", new { @class = "form-group" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(b => b.Price)
+        @Html.TextBoxFor(b => b.Price)
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

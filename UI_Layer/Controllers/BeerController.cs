@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Logic;
+using ApplicationCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -24,8 +25,7 @@ namespace UI_Layer.Controllers
 
             try
             {
-                BeerProductsLogic beerL = new BeerProductsLogic(_configuration.GetConnectionString("DefaultConnection"));
-                var StoredBeersList = await beerL.GetBeerProducts();
+                var StoredBeersList = await BeerProductsLogic.GetBeerProducts(_configuration.GetConnectionString("DefaultConnection"));
                 foreach (var beer in StoredBeersList)
                 {
                     beers.Add(new BeerProductViewModel()
@@ -43,6 +43,46 @@ namespace UI_Layer.Controllers
                 Console.WriteLine(ex.StackTrace);
             }
             return View(beers);
+        }
+
+        [HttpGet]
+        public IActionResult SaveBeerProductsForm(int? beerId)
+        {
+            BeerProductViewModel beerProducts = new BeerProductViewModel();
+            try
+            {
+                if (beerId is null)
+                {
+                    beerProducts.Brands = BrandsLogic.GetAllBrands(_configuration.GetConnectionString("DefaultConnection"));
+                    beerProducts.ProductContainers = ContainerLogic.GetContainers(_configuration.GetConnectionString("DefaultConnection"));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+            return View(beerProducts);
+        }
+
+        [HttpPost]
+        public IActionResult Save(BeerProductViewModel beer)
+        {
+            try
+            {
+                Beer beerProduct = new Beer();
+                beerProduct.BrandId = beer.BrandId;
+                beerProduct.ContainerId = beer.ContainerId;
+                decimal price;
+                beerProduct.Price = decimal.TryParse(beer.Price, out price) ? price : 0;
+                BeerProductsLogic.SaveBeerProduct(beerProduct, _configuration.GetConnectionString("DefaultConnection"));
+                return View("Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                return View("Error");
+            }
+
         }
     }
 }

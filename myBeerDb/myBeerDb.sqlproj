@@ -66,6 +66,7 @@
     <Build Include="dbo\Tables\BeerProducts.sql" />
     <Build Include="dbo\StoredProcedures\Sp_SelectAllBeers.sql" />
     <Build Include="dbo\StoredProcedures\Sp_SelectAllContainers_1.sql" />
+    <Build Include="dbo\StoredProcedures\Sp_InsertNewBeerProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\StoredProcedures\Sp_SelectAllBrands.sql" />

@@ -27,8 +27,7 @@ namespace UI_Layer.Controllers
             List<BeerProductViewModel> beers = new List<BeerProductViewModel>();
             try
             {
-                BeerProductsLogic beerLogic = new BeerProductsLogic(_configuration.GetConnectionString("DefaultConnection"));
-                var result = await beerLogic.GetThreeRandomBeerProducts();
+                var result = await BeerProductsLogic.GetThreeRandomBeerProducts(_configuration.GetConnectionString("DefaultConnection"));
                 foreach (var beer in result)
                 {
                     beers.Add(new BeerProductViewModel() { 

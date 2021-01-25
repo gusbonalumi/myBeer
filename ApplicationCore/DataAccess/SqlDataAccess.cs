@@ -50,11 +50,11 @@ namespace Infrastructure
             }
         }
 
-        public  void SaveDatsa<T>(string sql, T parameters)
+        public  async void SaveData(string sql, List<SqlParameter> parameters)
         {
             using (IDbConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Execute(sql, parameters);
+                await connection.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }

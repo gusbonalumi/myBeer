@@ -3,35 +3,30 @@ using ApplicationCore.Models;
 using Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ApplicationCore.Logic
 {
-    public class BeerProductsLogic
+    public static class BeerProductsLogic
     {
-        private readonly string _connectionString;
 
-        public BeerProductsLogic(string connectionString)
+        public static async Task<List<Beer>> GetBeerProducts(string connectionString)
         {
-            _connectionString = connectionString;
-        }
-
-        public async Task<List<Beer>> GetBeerProducts()
-        {
-            SqlDataAccess dat = new SqlDataAccess(_connectionString);
+            SqlDataAccess dat = new SqlDataAccess(connectionString);
             var result = await dat.LoadDataWithMultipleMapping(StoreProceduresList.SP_SELECT_ALL_BEERS);
             return result;
         }
 
-        public async Task<List<Beer>> GetThreeRandomBeerProducts()
+        public static async Task<List<Beer>> GetThreeRandomBeerProducts(string connectionString)
         {
             int index;
             int shots = 0;
             List<int> lastshot = new List<int>();
             List<Beer> ThreeBeers = new List<Beer>();
-            SqlDataAccess dat = new SqlDataAccess(_connectionString);
+            SqlDataAccess dat = new SqlDataAccess(connectionString);
             var result = await dat.LoadDataWithMultipleMapping(StoreProceduresList.SP_SELECT_ALL_BEERS);
             int totalProducts = result.Count;
             while (shots < 3)
@@ -45,6 +40,16 @@ namespace ApplicationCore.Logic
                 }
             }
             return ThreeBeers;
+        }
+
+        public static void SaveBeerProduct(Beer beer, string connectionString)
+        {
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@BrandId", beer.BrandId));
+            parameters.Add(new SqlParameter("@ContainerId", beer.ContainerId));
+            parameters.Add(new SqlParameter("@Price", beer.Price));
+            SqlDataAccess sqlDataAccess = new SqlDataAccess(connectionString);
+            sqlDataAccess.SaveData(StoreProceduresList.SP_INSERT_NEW_BEER_PRODUCT, parameters);
         }
     }
 }
