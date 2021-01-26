@@ -12,6 +12,6 @@ namespace ApplicationCore.Models
         public float CapacityInOz { get; set; }
         public string ContainerType { get; set; }
         public string ContainerName { get; set; }
-        public List<BeerProduct> BeerProducts { get; set; }
+        public List<Beer> BeerProducts { get; set; }
     }
 }

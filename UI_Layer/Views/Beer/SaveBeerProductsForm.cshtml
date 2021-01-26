@@ -5,20 +5,24 @@
 
 <h3>Save beer product</h3>
 
-@using (Html.BeginForm("Save", "Beer", new { @class = "form-inline" }))
-{
-    @Html.HiddenFor(b => b.Id)
-    <div class="form-group">
-        @Html.LabelFor(b => b.BrandId, "Brand")
-        @Html.DropDownListFor(b => b.BrandId, new SelectList(Model.Brands, "Id", "BrandName"), "Select a Brand", new { @class = "form-group" })
+<div class="row">
+    <div class="col-xl-8">
+        @using (Html.BeginForm("Save", "Beer", new { @class = "form-inline" }))
+        {
+            @Html.HiddenFor(b => b.Id)
+            <div class="form-group">
+                @Html.LabelFor(b => b.BrandId, "Brand")
+                @Html.DropDownListFor(b => b.BrandId, new SelectList(Model.Brands, "Id", "BrandName"), "Select a Brand", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(b => b.ContainerId, "Container")
+                @Html.DropDownListFor(b => b.ContainerId, new SelectList(Model.ProductContainers, "Id", "ContainerName"), "Select a Container", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(b => b.Price)
+                @Html.TextBoxFor(b => b.Price, new { @class="form-control", @type="number"})
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        }
     </div>
-    <div class="form-group">
-        @Html.LabelFor(b => b.ContainerId, "Container")
-        @Html.DropDownListFor(b => b.ContainerId, new SelectList(Model.ProductContainers, "Id", "ContainerName"), "Select a Container", new { @class = "form-group" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(b => b.Price)
-        @Html.TextBoxFor(b => b.Price)
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-}
+</div>

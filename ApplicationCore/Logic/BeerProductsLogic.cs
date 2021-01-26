@@ -44,10 +44,12 @@ namespace ApplicationCore.Logic
 
         public static void SaveBeerProduct(Beer beer, string connectionString)
         {
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@BrandId", beer.BrandId));
-            parameters.Add(new SqlParameter("@ContainerId", beer.ContainerId));
-            parameters.Add(new SqlParameter("@Price", beer.Price));
+            var parameters = new
+            {
+                BrandId = beer.BrandId,
+                ContainerId = beer.ContainerId,
+                Price = beer.Price
+            };
             SqlDataAccess sqlDataAccess = new SqlDataAccess(connectionString);
             sqlDataAccess.SaveData(StoreProceduresList.SP_INSERT_NEW_BEER_PRODUCT, parameters);
         }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UI_Layer.Mappers;
 using UI_Layer.Models;
 
 namespace UI_Layer.Controllers
@@ -21,28 +22,18 @@ namespace UI_Layer.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<BeerProductViewModel> beers = new List<BeerProductViewModel>();
+            List<BeerProductViewModel> viewModelBeers = new List<BeerProductViewModel>();
 
             try
             {
-                var StoredBeersList = await BeerProductsLogic.GetBeerProducts(_configuration.GetConnectionString("DefaultConnection"));
-                foreach (var beer in StoredBeersList)
-                {
-                    beers.Add(new BeerProductViewModel()
-                    {
-                        BrandName = beer.Brand.BrandName,
-                        ContainerName = beer.Container.ContainerName,
-                        ContainerType = beer.Container.ContainerType,
-                        Price = $"${beer.Price.ToString()}",
-                        Size = $"{beer.Container.CapacityInOz} fl. oz."
-                    });
-                }
+                var storedBeers = await BeerProductsLogic.GetBeerProducts(_configuration.GetConnectionString("DefaultConnection"));
+                viewModelBeers = BeersMapper.BeersToBeerProductsViewModel(storedBeers);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.StackTrace);
             }
-            return View(beers);
+            return View(viewModelBeers);
         }
 
         [HttpGet]
@@ -65,17 +56,15 @@ namespace UI_Layer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Save(BeerProductViewModel beer)
+        public async Task<IActionResult> Save(BeerProductViewModel beer)
         {
             try
             {
-                Beer beerProduct = new Beer();
-                beerProduct.BrandId = beer.BrandId;
-                beerProduct.ContainerId = beer.ContainerId;
-                decimal price;
-                beerProduct.Price = decimal.TryParse(beer.Price, out price) ? price : 0;
+                Beer beerProduct = BeersMapper.BeerProductViewModelToBeer(beer);
                 BeerProductsLogic.SaveBeerProduct(beerProduct, _configuration.GetConnectionString("DefaultConnection"));
-                return View("Index");
+                var storedBeerProducts = await BeerProductsLogic.GetBeerProducts(_configuration.GetConnectionString("DefaultConnection"));
+                List<BeerProductViewModel> beers = BeersMapper.BeersToBeerProductsViewModel(storedBeerProducts);
+                return View("Index", beers);
             }
             catch (Exception ex)
             {

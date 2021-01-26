@@ -50,7 +50,7 @@ namespace Infrastructure
             }
         }
 
-        public  async void SaveData(string sql, List<SqlParameter> parameters)
+        public  async void SaveData<T>(string sql, T parameters)
         {
             using (IDbConnection connection = new SqlConnection(_connectionString))
             {
