@@ -15,11 +15,12 @@ namespace UI_Layer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _configuration;
-
+        private readonly string _connectionString;
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +28,7 @@ namespace UI_Layer.Controllers
             List<BeerProductViewModel> beers = new List<BeerProductViewModel>();
             try
             {
-                var result = await BeerProductsLogic.GetThreeRandomBeerProducts(_configuration.GetConnectionString("DefaultConnection"));
+                var result = await BeerProductsLogic.GetRandomBeerProducts(_connectionString, 4);
                 foreach (var beer in result)
                 {
                     beers.Add(new BeerProductViewModel() { 

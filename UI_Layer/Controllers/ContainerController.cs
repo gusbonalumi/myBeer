@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using UI_Layer.Mappers;
 using UI_Layer.Models;
 
 namespace UI_Layer.Controllers.Container
@@ -10,10 +11,12 @@ namespace UI_Layer.Controllers.Container
     public class ContainerController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
 
         public ContainerController(IConfiguration configuration)
         {
             _configuration = configuration;
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
         public IActionResult Index()
@@ -21,7 +24,7 @@ namespace UI_Layer.Controllers.Container
             List<ContainerViewModel> containers = new List<ContainerViewModel>();
             try
             {
-                var result = ContainerLogic.GetContainers(_configuration.GetConnectionString("DefaultConnection"));
+                var result = ContainerLogic.GetContainers(_connectionString);
                 foreach (var item in result)
                 {
                     containers.Add(new ContainerViewModel(){ 
@@ -37,6 +40,37 @@ namespace UI_Layer.Controllers.Container
                 Console.WriteLine(ex.StackTrace);
             }
             return View(containers);
+        }
+
+        [HttpGet]
+        public IActionResult SaveProductContainerForm(int? id)
+        {
+            ContainerViewModel containerVm = new ContainerViewModel();
+            if(id != null)
+            {
+
+            }
+            return View(containerVm);
+        }
+
+        [HttpPost]
+        public IActionResult Save(ContainerViewModel containerViewModel)
+        {
+            List<ContainerViewModel> containerViewModelList = new List<ContainerViewModel>();
+            try
+            {
+                var productContainer = ProductContainerMapper.FromContainerViewModelToProductContainer(containerViewModel);
+                ContainerLogic.SaveNewContainer(_connectionString, productContainer);
+                var containers = ContainerLogic.GetContainers(_connectionString);
+                containers.ForEach(c => {
+                    containerViewModelList.Add(ProductContainerMapper.FromProductContainerToContainerViewModel(c));
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+            return View("Index", containerViewModelList);
         }
 
     }

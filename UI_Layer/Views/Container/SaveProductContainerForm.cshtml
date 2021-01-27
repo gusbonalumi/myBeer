@@ -1,0 +1,33 @@
+﻿@model UI_Layer.Models.ContainerViewModel;
+@{
+    ViewData["title"] = "Save Product Container Form";
+}
+
+<h3>Save Product Container</h3>
+
+<div class="row">
+    <div class="col-xl-8">
+        @using (Html.BeginForm("Save", "Container"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(c => c.Id)
+            <div class="form-group">
+                @Html.LabelFor(c => c.ContainerName)
+                @Html.TextBoxFor(c => c.ContainerName, new { @class="form-control", @type="text" })
+                @Html.ValidationMessageFor(c => c.ContainerName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(c => c.ContainerType)
+                @Html.TextBoxFor(c => c.ContainerType, new { @class = "form-control", @type = "text" })
+                @Html.ValidationMessageFor(c => c.ContainerType)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(c => c.CapacityInOz)
+                @Html.TextBoxFor(c => c.CapacityInOz, new { @class = "form-control", @type = "number" })
+                @Html.ValidationMessageFor(c => c.CapacityInOz)
+            </div>
+            @Html.ValidationSummary()
+            <button class="btn btn-primary" type="submit">Submit</button>
+        }
+    </div>
+</div>

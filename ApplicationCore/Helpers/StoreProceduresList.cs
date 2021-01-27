@@ -14,5 +14,6 @@ namespace ApplicationCore.Helpers
         public const string SP_INSERT_NEW_BRAND = "Sp_InsertNewBrand";
         /*CONTAINERS*/
         public const string SP_SELECT_ALL_CONTAINERS = "Sp_SelectAllContainers";
+        public const string SP_INSERT_NEW_CONTAINER = "Sp_InsertNewContainer";
     }
 }

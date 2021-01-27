@@ -26,7 +26,7 @@
                 @Html.TextBoxFor(b => b.Price, new { @class = "form-control", @type = "number" })
                 @Html.ValidationMessageFor(b => b.Price)
             </div>
-            
+            @Html.ValidationSummary()
             <button type="submit" class="btn btn-primary">Submit</button>
         }
     </div>
