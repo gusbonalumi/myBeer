@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UI_Layer.Mappers;
 using UI_Layer.Models;
 
 namespace UI_Layer.Controllers
@@ -12,10 +13,12 @@ namespace UI_Layer.Controllers
     public class BrandController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
 
         public BrandController(IConfiguration configuration)
         {
             _configuration = configuration;
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
         public IActionResult Index()
@@ -24,7 +27,7 @@ namespace UI_Layer.Controllers
 
             try
             {
-                var result = BrandsLogic.GetAllBrands(_configuration.GetConnectionString("DefaultConnection"));
+                var result = BrandsLogic.GetAllBrands(_connectionString);
                 foreach (var item in result)
                 {
                     brands.Add(new BrandViewModel() { 
@@ -40,6 +43,40 @@ namespace UI_Layer.Controllers
             }
 
             return View(brands);
+        }
+
+        [HttpGet]
+        public IActionResult SaveBrandForm(int? id)
+        {
+            BrandViewModel brand = new BrandViewModel();
+
+            if (id != null)
+            {
+                /*Complete later for brand edition options*/
+            }
+
+            return View(brand);
+        }
+
+        [HttpPost]
+        public IActionResult Save(BrandViewModel brandViewModel)
+        {
+            List<BrandViewModel> brandsList = new List<BrandViewModel>();
+            try
+            {
+                var brand = BrandsMapper.FromBrandViewModelToBrand(brandViewModel);
+                BrandsLogic.SaveNewBrand(_connectionString, brand);
+                
+                var brands = BrandsLogic.GetAllBrands(_connectionString);
+                brands.ForEach((brandVM) => {
+                    brandsList.Add(BrandsMapper.FromBrandToBrandViewModel(brandVM));
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+            return View("Index", brandsList);
         }
     }
 }

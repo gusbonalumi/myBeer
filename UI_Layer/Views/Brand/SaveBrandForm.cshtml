@@ -1,0 +1,23 @@
+﻿@model UI_Layer.Models.BrandViewModel
+@{
+    ViewData["title"] = "Brands - Save Form";
+}
+<h3>Save brand</h3>
+<div class="row">
+    <div class="col-xl-8">
+        @using (Html.BeginForm("Save", "Brand"))
+        {
+            <div class="form-group">
+                @Html.LabelFor(b => b.BrandName)
+                @Html.TextBoxFor(b => b.BrandName, new { @class="form-control", @type="text" })
+                @Html.ValidationMessageFor(b => b.BrandName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(b => b.BrandNationality)
+                @Html.TextBoxFor(b => b.BrandNationality, new { @class = "form-control", @type = "text" })
+                @Html.ValidationMessageFor(b => b.BrandNationality)
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        }
+    </div>
+</div>

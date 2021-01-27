@@ -17,6 +17,7 @@ namespace UI_Layer.Models
         [Display(Name = "Container Type")]
         public string ContainerType { get; set; }
         [Required]
+        [RegularExpression("[0-9.,]+")]
         public string Price { get; set; }
         public string Size { get; set; }
         [Display(Name ="Brand")]
