@@ -12,15 +12,10 @@
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Type
-            </th>
-            <th>
-                Size
-            </th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +25,7 @@
                 <td>@item.ContainerName</td>
                 <td>@item.ContainerType</td>
                 <td>@item.CapacityInOz ft. oz.</td>
+                <td>@Html.ActionLink("Edit", "SaveProductContainerForm", "Container", new { @item.Id })</td>
             </tr>
         }
     </tbody>

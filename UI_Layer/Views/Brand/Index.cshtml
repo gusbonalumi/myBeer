@@ -12,6 +12,7 @@
         <tr>
             <th>Brand name</th>
             <th>Nationality</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
             <tr>
                 <td>@brand.BrandName</td>
                 <td>@brand.BrandNationality</td>
+                <td>@Html.ActionLink("Edit", "SaveBrandForm", "Brand",new { id = brand.Id })</td>
             </tr>
         }
     </tbody>

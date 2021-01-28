@@ -5,7 +5,7 @@
 
 <h3>Beers List</h3>
 <hr/>
-@Html.ActionLink("New product", "SaveBeerProductsForm", "Beer", new { @class="btn btn-primary", @role="button"})
+@Html.ActionLink("New product", "SaveBeerProductsForm", "Beer", null,new { @class="btn btn-primary", @role="button"})
 <hr/>
 <table class="table table-hover table-bordered">
     <thead>
@@ -15,6 +15,7 @@
             <th>Container</th>
             <th>Container Name</th>
             <th>Price</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +27,7 @@
                 <td>@beer.ContainerType</td>
                 <td>@beer.ContainerName</td>
                 <td>@beer.Price</td>
+                <td>@Html.ActionLink("Edit", "SaveBeerProductsForm", "Beer", new { id = beer.Id })</td>
             </tr>
         }
     </tbody>
