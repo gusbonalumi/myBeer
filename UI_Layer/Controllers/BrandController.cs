@@ -21,13 +21,13 @@ namespace UI_Layer.Controllers
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             List<BrandViewModel> brands = new List<BrandViewModel>();
 
             try
             {
-                var result = BrandsLogic.GetAllBrands(_connectionString);
+                var result = await BrandsLogic.GetAllBrands(_connectionString);
                 foreach (var item in result)
                 {
                     brands.Add(new BrandViewModel() { 
@@ -59,7 +59,7 @@ namespace UI_Layer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Save(BrandViewModel brandViewModel)
+        public async Task<IActionResult> Save(BrandViewModel brandViewModel)
         {
             List<BrandViewModel> brandsList = new List<BrandViewModel>();
             try
@@ -67,7 +67,7 @@ namespace UI_Layer.Controllers
                 var brand = BrandsMapper.FromBrandViewModelToBrand(brandViewModel);
                 BrandsLogic.SaveNewBrand(_connectionString, brand);
                 
-                var brands = BrandsLogic.GetAllBrands(_connectionString);
+                var brands = await BrandsLogic.GetAllBrands(_connectionString);
                 brands.ForEach((brandVM) => {
                     brandsList.Add(BrandsMapper.FromBrandToBrandViewModel(brandVM));
                 });

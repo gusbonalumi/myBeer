@@ -36,7 +36,7 @@ namespace UI_Layer.Controllers
                         BrandName = beer.Brand.BrandName,
                         ContainerName = beer.Container.ContainerName,
                         ContainerType = beer.Container.ContainerType,
-                        Price = beer.Price.ToString("C",CultureInfo.CreateSpecificCulture("en-US")),
+                        Price = beer.Price,
                         Size = $"{beer.Container.CapacityInOz} fl. oz."
                     });
                 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using UI_Layer.Mappers;
@@ -38,26 +39,26 @@ namespace UI_Layer.Controllers
         }
 
         [HttpGet]
-        public IActionResult SaveBeerProductsForm(int? beerId)
+        public async Task<IActionResult> SaveBeerProductsForm(string beerId)
         {
-            BeerProductViewModel beerProduct = new BeerProductViewModel();
+            BeerProductViewModel beerProductViewModel = new BeerProductViewModel();
             try
             {
-                beerProduct.Brands = BrandsLogic.GetAllBrands(_connectionString);
-                beerProduct.ProductContainers = ContainerLogic.GetContainers(_connectionString);
-                if (beerId != null)
+                beerProductViewModel.Brands = await BrandsLogic.GetAllBrands(_connectionString);
+                beerProductViewModel.ProductContainers = await ContainerLogic.GetContainers(_connectionString);
+                if (!string.IsNullOrEmpty(beerId))
                 {
-                    var beer = BeerProductsLogic.GetBeerById((int)beerId, _connectionString);
-                    beerProduct.Id = beer.Id;
-                    beerProduct.ContainerId = beer.ContainerId;
-                    beerProduct.BrandId = beer.BrandId;
+                    int parsedId;
+                    var intBeerid = Int32.TryParse(beerId, out parsedId) ? parsedId : throw new ArgumentException("Beer Id is probably null or an invalid format");
+                    var beer = await BeerProductsLogic.GetBeerById(intBeerid, _connectionString);
+                    BeersMapper.SetBeerPropertiesToViewModel(beerProductViewModel, beer);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.StackTrace);
             }
-            return View(beerProduct);
+            return View(beerProductViewModel);
         }
 
         [HttpPost]

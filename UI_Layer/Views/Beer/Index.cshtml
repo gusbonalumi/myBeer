@@ -26,8 +26,8 @@
                 <td>@beer.Size</td>
                 <td>@beer.ContainerType</td>
                 <td>@beer.ContainerName</td>
-                <td>@beer.Price</td>
-                <td>@Html.ActionLink("Edit", "SaveBeerProductsForm", "Beer", new { id = beer.Id })</td>
+                <td>@beer.Price.ToString("00.00")</td>
+                <td>@Html.ActionLink("Edit", "SaveBeerProductsForm", "Beer", new { beerId = beer.Id.ToString() })</td>
             </tr>
         }
     </tbody>

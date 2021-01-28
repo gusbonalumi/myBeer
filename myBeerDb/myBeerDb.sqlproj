@@ -65,9 +65,12 @@
     <Build Include="dbo\Tables\Brands.sql" />
     <Build Include="dbo\Tables\BeerProducts.sql" />
     <Build Include="dbo\StoredProcedures\Sp_SelectAllBeers.sql" />
-    <Build Include="dbo\StoredProcedures\Sp_SelectAllContainers_1.sql" />
     <Build Include="dbo\StoredProcedures\Sp_InsertNewBeerProduct.sql" />
     <Build Include="dbo\StoredProcedures\Sp_InsertNewBrand.sql" />
+    <Build Include="dbo\StoredProcedures\Sp_GetBeerProductById.sql" />
+    <Build Include="dbo\StoredProcedures\Sp_UpdateBeerProductById.sql" />
+    <Build Include="dbo\StoredProcedures\Sp_UpdateBrandById.sql" />
+    <Build Include="dbo\StoredProcedures\Sp_UpdateProdutContainerById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\StoredProcedures\Sp_SelectAllBrands.sql" />

@@ -21,7 +21,7 @@ namespace UI_Layer.Mappers
                     BrandName = beer.Brand.BrandName,
                     ContainerName = beer.Container.ContainerName,
                     ContainerType = beer.Container.ContainerType,
-                    Price = $"{beer.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))}",
+                    Price = beer.Price,
                     Size = $"{beer.Container.CapacityInOz} fl. oz."
                 });
             }
@@ -33,9 +33,16 @@ namespace UI_Layer.Mappers
             Beer beer = new Beer();
             beer.BrandId = viewModelBeer.BrandId;
             beer.ContainerId = viewModelBeer.ContainerId;
-            decimal price;
-            beer.Price = decimal.TryParse(viewModelBeer.Price, out price) ? price : 0;
+            beer.Price = viewModelBeer.Price;
             return beer;
+        }
+
+        public static void SetBeerPropertiesToViewModel(BeerProductViewModel viewModelBeer, Beer beerProduct)
+        {
+            viewModelBeer.Id = beerProduct.Id;
+            viewModelBeer.BrandId = beerProduct.BrandId;
+            viewModelBeer.ContainerId = beerProduct.ContainerId;
+            viewModelBeer.Price = beerProduct.Price;
         }
     }
 }

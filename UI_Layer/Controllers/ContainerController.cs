@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UI_Layer.Mappers;
 using UI_Layer.Models;
 
@@ -19,12 +20,12 @@ namespace UI_Layer.Controllers.Container
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             List<ContainerViewModel> containers = new List<ContainerViewModel>();
             try
             {
-                var result = ContainerLogic.GetContainers(_connectionString);
+                var result = await ContainerLogic.GetContainers(_connectionString);
                 foreach (var item in result)
                 {
                     containers.Add(new ContainerViewModel(){ 
@@ -54,14 +55,14 @@ namespace UI_Layer.Controllers.Container
         }
 
         [HttpPost]
-        public IActionResult Save(ContainerViewModel containerViewModel)
+        public async Task<IActionResult> Save(ContainerViewModel containerViewModel)
         {
             List<ContainerViewModel> containerViewModelList = new List<ContainerViewModel>();
             try
             {
                 var productContainer = ProductContainerMapper.FromContainerViewModelToProductContainer(containerViewModel);
                 ContainerLogic.SaveNewContainer(_connectionString, productContainer);
-                var containers = ContainerLogic.GetContainers(_connectionString);
+                var containers = await ContainerLogic.GetContainers(_connectionString);
                 containers.ForEach(c => {
                     containerViewModelList.Add(ProductContainerMapper.FromProductContainerToContainerViewModel(c));
                 });
