@@ -20,12 +20,22 @@ namespace Infrastructure
             _connectionString = connectionString;
         }
 
-        public  List<T> LoadData<T>(string sql)
+        public Generic LoadDataById<Generic>(string sql, int id)
         {
             using (IDbConnection connection = new SqlConnection(_connectionString))
             {
-                var result = connection.Query<T>(sql, commandType: CommandType.StoredProcedure).ToList();
+                var idParameter = new { @Id = id };
+                var result = connection.Query<Generic>(sql, idParameter, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 return result;
+            }
+        }
+
+        public async Task<List<T>> LoadDataList<T>(string sql)
+        {
+            using (IDbConnection connection = new SqlConnection(_connectionString))
+            {
+                var result = await connection.QueryAsync<T>(sql, commandType: CommandType.StoredProcedure);
+                return result.ToList();
             }
         }
 

@@ -17,6 +17,7 @@ namespace UI_Layer.Mappers
             {
                 viewModelBeers.Add(new BeerProductViewModel()
                 {
+                    Id = beer.Id,
                     BrandName = beer.Brand.BrandName,
                     ContainerName = beer.Container.ContainerName,
                     ContainerType = beer.Container.ContainerType,

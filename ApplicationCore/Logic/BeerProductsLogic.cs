@@ -53,5 +53,11 @@ namespace ApplicationCore.Logic
             SqlDataAccess sqlDataAccess = new SqlDataAccess(connectionString);
             sqlDataAccess.SaveData(StoreProceduresList.SP_INSERT_NEW_BEER_PRODUCT, parameters);
         }
+
+        public static Beer GetBeerById(int id, string connectionString)
+        {
+            SqlDataAccess sqlDataAccess = new SqlDataAccess(connectionString);
+            return sqlDataAccess.LoadDataById<Beer>(StoreProceduresList.SP_GET_BEER_BY_ID, id);
+        }
     }
 }

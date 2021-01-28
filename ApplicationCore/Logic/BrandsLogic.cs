@@ -11,10 +11,10 @@ namespace ApplicationCore.Logic
 {
     public static class BrandsLogic
     {
-        public static List<Brand> GetAllBrands(string connectionString)
+        public async static Task<List<Brand>> GetAllBrands(string connectionString)
         {
             SqlDataAccess dataAccess = new SqlDataAccess(connectionString);
-            return dataAccess.LoadData<Brand>(StoreProceduresList.SP_SELECT_ALL_BRANDS);
+            return await dataAccess.LoadDataList<Brand>(StoreProceduresList.SP_SELECT_ALL_BRANDS);
         }
 
         public static void SaveNewBrand(string connectionString, Brand brand)

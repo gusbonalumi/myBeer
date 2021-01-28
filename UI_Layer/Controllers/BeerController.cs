@@ -40,20 +40,24 @@ namespace UI_Layer.Controllers
         [HttpGet]
         public IActionResult SaveBeerProductsForm(int? beerId)
         {
-            BeerProductViewModel beerProducts = new BeerProductViewModel();
+            BeerProductViewModel beerProduct = new BeerProductViewModel();
             try
             {
-                if (beerId is null)
+                beerProduct.Brands = BrandsLogic.GetAllBrands(_connectionString);
+                beerProduct.ProductContainers = ContainerLogic.GetContainers(_connectionString);
+                if (beerId != null)
                 {
-                    beerProducts.Brands = BrandsLogic.GetAllBrands(_connectionString);
-                    beerProducts.ProductContainers = ContainerLogic.GetContainers(_connectionString);
+                    var beer = BeerProductsLogic.GetBeerById((int)beerId, _connectionString);
+                    beerProduct.Id = beer.Id;
+                    beerProduct.ContainerId = beer.ContainerId;
+                    beerProduct.BrandId = beer.BrandId;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.StackTrace);
             }
-            return View(beerProducts);
+            return View(beerProduct);
         }
 
         [HttpPost]

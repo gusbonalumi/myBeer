@@ -3,15 +3,16 @@ using ApplicationCore.Models;
 using Infrastructure;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace ApplicationCore.Logic
 {
     public static class ContainerLogic
     {
-        public static List<ProductContainer> GetContainers(string connnectionString)
+        public async static Task<List<ProductContainer>> GetContainers(string connnectionString)
         {
             SqlDataAccess dataAccess = new SqlDataAccess(connnectionString);
-            return dataAccess.LoadData<ProductContainer>(StoreProceduresList.SP_SELECT_ALL_CONTAINERS);
+            return await dataAccess.LoadDataList<ProductContainer>(StoreProceduresList.SP_SELECT_ALL_CONTAINERS);
         }
 
         public static void SaveNewContainer(string connectionString, ProductContainer container)
